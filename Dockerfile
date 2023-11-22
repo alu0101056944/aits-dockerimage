@@ -1,9 +1,12 @@
 FROM node:21
 
+# install sudo command. otherwise I get error sudo not found
+RUN apt-get update && apt-get install -y sudo
+
 # Install mongodb
-RUN /bin/bash -c \
-    curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add 
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" \
+RUN ["/bin/bash" , "-c", \
+    "curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add"]
+RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" \
     | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 RUN bash -c \
     echo "deb  arch=amd64,arm64  https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
